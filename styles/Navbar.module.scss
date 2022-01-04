@@ -1,0 +1,157 @@
+@import "mixins";
+@import "variables";
+
+.navContainer {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  @include flexContainer(center, center);
+  flex-direction: column;
+  .navTop {
+    background-color: rgb(2, 2, 44);
+    width: 100%;
+    color: white;
+    @include flexContainer(space-between, center);
+    .search {
+      width: 55%;
+      $height: 2rem;
+      @include flexContainer(center, center);
+      margin: 0.5rem 0;
+      $fontSize: 1.1rem;
+      $borderRadius: 0.4rem;
+      #searchBar {
+        font-size: $fontSize;
+        width: 100%;
+        height: $height;
+      }
+      #categories {
+        font-size: $fontSize;
+        height: $height;
+        text-align: center;
+        border-top-left-radius: $borderRadius;
+        border-bottom-left-radius: $borderRadius;
+        background-color: rgb(221, 221, 221);
+      }
+      .searchBtn {
+        font-size: $fontSize + 0.2rem;
+        height: $height;
+        width: $height;
+        text-align: center;
+        background-color: rgb(241, 203, 77);
+        @include flexContainer(center, center);
+        border: none;
+        cursor: pointer;
+        border-top-right-radius: $borderRadius;
+        border-bottom-right-radius: $borderRadius;
+        &:hover {
+          background-color: #f3a847;
+        }
+      }
+    }
+    h1 {
+      margin: 0rem 1rem;
+      font-weight: lighter;
+    }
+    .authButtons {
+      margin-right: 1rem;
+      a {
+        margin: 0.5rem;
+        font-size: 1.2rem;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  .navBottom {
+    background-color: #232f3e;
+    color: white;
+    padding: 0.5rem;
+    width: 100%;
+    .expandButton {
+      background-color: rgb(2, 2, 44);
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      height: 1.3rem;
+      width: 1.5rem;
+      @include flexContainer(space-between, center);
+      flex-direction: column;
+      border: none;
+      cursor: pointer;
+      display: none;
+      .expandLine {
+        width: 100%;
+        border-radius: 0.2rem;
+        height: 0.15rem;
+        background-color: white;
+      }
+    }
+    @include flexContainer(flex-start, center);
+    ul {
+      @include flexContainer(flex-start, center);
+      li {
+        margin: 0rem 1rem;
+        list-style: none;
+        font-size: 1.4rem;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .navContainer {
+    @include flexContainer(center, center);
+    flex-direction: column;
+    .navTop {
+      height: 2.2rem;
+      transition: all 0.7s ease-out;
+      @include flexContainer(center, center);
+      flex-direction: column;
+      .authButtons {
+        display: none;
+        margin-bottom: 1.5rem;
+      }
+      .search {
+        display: none;
+        width: 90%;
+        margin-top: 1.5rem;
+      }
+      h1 {
+        margin: 0.3rem 0;
+      }
+      .active {
+        display: flex;
+      }
+    }
+    .navBottom {
+      padding: 0;
+      height: 0;
+      transition: all 0.7s ease-out;
+      @include flexContainer(center, center);
+      .expandButton {
+        @include flexContainer(space-between, center);
+      }
+      ul {
+        flex-direction: column;
+        .navLinks {
+          display: none;
+        }
+        .active {
+          display: block;
+          margin: 0.3rem 0;
+        }
+      }
+    }
+    .navBottomTransition {
+      height: 7rem;
+    }
+    .navTopTransition {
+      height: 10.5rem;
+    }
+  }
+}

@@ -1,0 +1,31 @@
+@mixin flexContainer($justifyContent, $alignItems) {
+  display: flex;
+  justify-content: $justifyContent;
+  align-items: $alignItems;
+}
+
+@mixin bodyColors($lightMode: true) {
+  @if $lightMode {
+    background-color: white;
+    color: black;
+  } @else {
+    background-color: rgb(4, 8, 41);
+    color: white;
+  }
+}
+
+@mixin colors($lightMode: true) {
+  @if $lightMode {
+    color: black;
+  } @else {
+    color: white;
+  }
+}
+
+@mixin borderColor($lightMode: true) {
+  @if $lightMode {
+    border-color: black;
+  } @else {
+    border-color: white;
+  }
+}

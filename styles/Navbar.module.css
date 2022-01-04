@@ -1,0 +1,119 @@
+.navContainer {
+  width: 100%;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #1f1e1e;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.navContainer h1 {
+  margin: 0rem 1rem;
+  font-weight: lighter;
+}
+
+.navContainer .expandButton {
+  background-color: #1f1e1e;
+  position: absolute;
+  top: 0.5rem;
+  left: 1rem;
+  height: 1.3rem;
+  width: 1.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  border: none;
+  cursor: pointer;
+  display: none;
+}
+
+.navContainer .expandButton .expandLine {
+  width: 100%;
+  border-radius: 0.2rem;
+  height: 0.15rem;
+  background-color: white;
+}
+
+.navContainer ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.navContainer ul li {
+  margin: 0rem 1rem;
+  list-style: none;
+  font-size: 1.4rem;
+}
+
+.navContainer ul li:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 650px) {
+  .navContainer {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .navContainer .expandButton {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .navContainer ul {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .navContainer ul .navLinks {
+    display: none;
+  }
+  .navContainer ul .active {
+    display: block;
+    margin: 0.3rem 0;
+  }
+}
+/*# sourceMappingURL=Navbar.module.css.map */
