@@ -18,23 +18,23 @@
   }
 }
 
-.itemsContainer {
+.productsContainer {
   @include flexContainer(center, flex-start);
   .filters {
     width: 20%;
     border-right: 0.1rem solid black;
     margin: 2rem 1rem;
   }
-  .items {
+  .products {
     width: 80%;
     @include flexContainer(center, center);
     flex-direction: column;
-    .item {
+    .product {
       width: 100%;
       @include flexContainer(space-between, flex-start);
       padding: 1rem 0;
       border-bottom: 0.1rem solid black;
-      .itemDesc {
+      .productDesc {
         width: 80%;
         margin: 2rem;
       }
@@ -51,7 +51,7 @@
   .showFilters {
     display: block;
   }
-  .itemsContainer {
+  .productsContainer {
     .filters {
       width: 0;
       transition: all 0.7s ease-out;

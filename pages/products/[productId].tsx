@@ -2,31 +2,47 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { GetStaticProps, NextPage } from "next";
 import React from "react";
 
-interface Data {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  imgUrl: string;
-  category: string;
-}
-
 const url = process.env.url;
 
-interface Props {
-  data: Data | null;
+interface Product {
+  productId: string;
+  title: string;
+  description: string;
+  imgUrl: string;
+  price: number;
+  category: Category;
+  discount: Discount;
+  inventory: number;
 }
 
-const Item: NextPage<Props> = ({ data }) => {
+interface Category {
+  categoryId: string;
+  name: string;
+  description: string;
+}
+
+interface Discount {
+  discountId: string;
+  name: string;
+  description: string;
+  discountPercent: number;
+  active: boolean;
+}
+
+interface Props {
+  data: Product | null;
+}
+
+const ProductPage: NextPage<Props> = ({ data }) => {
   console.log(data);
   return <div>hello</div>;
 };
 
-export default Item;
+export default ProductPage;
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const { params } = context;
-  let data: Data | null = null;
+  let data: Product | null = null;
   axios
     .get(`${url}/api/items?id=${params?.id}`)
     .then((res: AxiosResponse) => {

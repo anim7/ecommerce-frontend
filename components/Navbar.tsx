@@ -1,8 +1,43 @@
 import React from "react";
 import navStyles from "../styles/Navbar.module.scss";
 import Link from "next/link";
+import axios, { AxiosError, AxiosResponse } from "axios";
+
+const { useState } = React;
+
+interface Category {
+  categoryId: string;
+  name: string;
+  description: string;
+}
+
+const url = process.env.url;
 
 const Navbar: React.FunctionComponent = () => {
+  const [categories, setCategories] = useState<Category[] | null>(null);
+  const [constructorHasRun, setConstructorHasRun] = useState<boolean>(false);
+  const getCategories = (categoryId?: number) => {
+    let categoryParam = "";
+    if (categoryId) {
+      categoryParam = `?id=${categoryId}`;
+    }
+    if (url)
+      axios
+        .get(`${url}/api/categories${categoryParam}`)
+        .then((res: AxiosResponse) => {
+          setCategories(res.data);
+        })
+        .catch((err: AxiosError) => {
+          setCategories(null);
+        });
+  };
+  const constructor = () => {
+    if (!constructorHasRun) {
+      getCategories();
+      setConstructorHasRun(true);
+    }
+  };
+  constructor();
   return (
     <nav className={navStyles.navContainer}>
       <div className={navStyles.navTop}>
@@ -13,8 +48,18 @@ const Navbar: React.FunctionComponent = () => {
         </Link>
         <div className={navStyles.search}>
           <select name="categories" id={navStyles.categories}>
-            <option value="books">Books</option>
-            <option value="groceries">Groceries</option>
+            <option value="all">All</option>
+            {categories &&
+              categories.map((category) => {
+                return (
+                  <option
+                    key={category.categoryId}
+                    value={category.name.toLowerCase()}
+                  >
+                    {category.name}
+                  </option>
+                );
+              })}
           </select>
           <input type="search" name="searchBar" id={navStyles.searchBar} />
           <button className={navStyles.searchBtn}>&#x1F50E;&#xFE0E;</button>
@@ -68,8 +113,8 @@ const Navbar: React.FunctionComponent = () => {
             </Link>
           </li>
           <li className={navStyles.navLinks}>
-            <Link href="/items">
-              <a>Items</a>
+            <Link href="/products">
+              <a>Products</a>
             </Link>
           </li>
         </ul>
