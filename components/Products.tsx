@@ -3,31 +3,8 @@ import productStyles from "../styles/Products.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
+import { Product } from "../global/Product";
 
-interface Product {
-  productId: string;
-  title: string;
-  description: string;
-  imgUrl: string;
-  price: number;
-  category: Category;
-  discount: Discount;
-  inventory: number;
-}
-
-interface Category {
-  categoryId: string;
-  name: string;
-  description: string;
-}
-
-interface Discount {
-  discountId: string;
-  name: string;
-  description: string;
-  discountPercent: number;
-  active: boolean;
-}
 interface Props {
   data: Product[] | null;
 }

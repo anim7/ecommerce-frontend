@@ -2,31 +2,7 @@ import { GetStaticProps, NextPage } from "next";
 import React from "react";
 import ProductsComponent from "../../components/Products";
 import axios, { AxiosError, AxiosResponse } from "axios";
-
-interface Product {
-  productId: string;
-  title: string;
-  description: string;
-  imgUrl: string;
-  price: number;
-  category: Category;
-  discount: Discount;
-  inventory: number;
-}
-
-interface Category {
-  categoryId: string;
-  name: string;
-  description: string;
-}
-
-interface Discount {
-  discountId: string;
-  name: string;
-  description: string;
-  discountPercent: number;
-  active: boolean;
-}
+import { Product } from "../../global/Product";
 
 const url = process.env.url;
 interface Props {

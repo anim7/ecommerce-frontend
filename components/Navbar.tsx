@@ -2,14 +2,9 @@ import React from "react";
 import navStyles from "../styles/Navbar.module.scss";
 import Link from "next/link";
 import axios, { AxiosError, AxiosResponse } from "axios";
+import { Category } from "../global/Category";
 
 const { useState } = React;
-
-interface Category {
-  categoryId: string;
-  name: string;
-  description: string;
-}
 
 const url = process.env.url;
 
