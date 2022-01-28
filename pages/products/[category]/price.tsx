@@ -1,0 +1,68 @@
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { GetServerSideProps, NextPage } from "next";
+import { ParsedUrlQuery } from "querystring";
+import React from "react";
+import Products from "..";
+import { Product } from "../../../global/Product";
+
+const url = process.env.url;
+
+interface IParams extends ParsedUrlQuery {
+  category: string;
+}
+
+interface Props {
+  data: Product[] | null;
+}
+
+const Price: NextPage<Props> = ({ data }) => {
+  return <Products data={data} />;
+};
+
+export default Price;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  let data: Product[] | null = null;
+  const { category } = context.params as IParams;
+  let min: number | string = (
+    document.getElementById("min")! as HTMLInputElement
+  ).value;
+
+  let max: number | string = (
+    document.getElementById("max")! as HTMLInputElement
+  ).value;
+
+  if (max && max.length > 0 && parseFloat(max) >= 0) {
+    max = parseFloat(max);
+    if (min && min.length > 0 && parseFloat(min) >= 0) {
+      min = parseFloat(min);
+    } else {
+      min = 0;
+    }
+  } else {
+    max = 0;
+  }
+  if (max == 0) {
+    await axios
+      .get(`${url}/api/products/${category}`)
+      .then((res: AxiosResponse) => {
+        data = res.data;
+      })
+      .catch((err: AxiosError) => {
+        console.error(err);
+      });
+  }
+  await axios
+    .get(`${url}/api/products/${category}?min=${min}?max=${max}`)
+    .then((res: AxiosResponse) => {
+      data = res.data;
+    })
+    .catch((err: AxiosError) => {
+      console.error(err);
+    });
+  return {
+    props: {
+      data: data,
+    },
+  };
+};

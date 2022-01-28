@@ -1,37 +1,15 @@
 @import "mixins";
 @import "variables";
 
-.showFilters {
-  display: block;
-  margin: 1rem auto;
-  background-color: #007bff;
-  color: white;
-  border: 0.1rem solid black;
-  padding: 0.2rem;
-  border-radius: 0.3rem;
-  display: none;
-  cursor: pointer;
-  &:hover {
-    background-color: darkblue;
-    border-color: #007bff;
-    color: cyan;
-  }
-}
-
 .productsContainer {
   @include flexContainer(center, flex-start);
-  .filters {
-    width: 20%;
-    border-right: 0.1rem solid black;
-    margin: 2rem 1rem;
-  }
   .products {
     width: 80%;
     @include flexContainer(center, center);
     flex-direction: column;
     .product {
       width: 100%;
-      @include flexContainer(space-between, flex-start);
+      @include flexContainer(space-between, center);
       padding: 1rem 0;
       border-bottom: 0.1rem solid black;
       .productDesc {
@@ -39,8 +17,8 @@
         margin: 2rem;
       }
       .img {
-        width: 10rem;
-        height: 10rem;
+        width: 15rem;
+        height: 15rem;
         position: relative;
       }
     }
@@ -48,28 +26,13 @@
 }
 
 @media only screen and (max-width: 700px) {
-  .showFilters {
-    display: block;
-  }
   .productsContainer {
-    .filters {
-      width: 0;
-      transition: all 0.7s ease-out;
-      height: 100vh;
-      position: fixed;
-      top: 2.15rem;
-      left: 0;
-      border: none;
-      background-color: rgb(24, 24, 59);
-      color: white;
-      margin: 0;
-      z-index: 1;
-      * {
-        display: none;
-      }
-    }
-    .filtersTransition {
+    @include flexContainer(flex-start, center);
+    flex-direction: column;
+    .products {
       width: 90%;
+      .product {
+      }
     }
   }
 }

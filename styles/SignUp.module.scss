@@ -1,0 +1,51 @@
+@import "mixins";
+@import "variables";
+
+.heading {
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 2rem;
+}
+
+.signUpContainer {
+  @include flexContainer(center, center);
+  border: 0.1rem solid black;
+  border-radius: 0.3rem;
+  width: fit-content;
+  flex-direction: column;
+  margin: 3rem auto;
+
+  .inputBox {
+    font-size: 1.2rem;
+    margin: 1rem;
+    width: 20rem;
+    margin-bottom: 0;
+    &:focus {
+      outline-color: #002144;
+    }
+  }
+  .btnSubmit {
+    font-size: 1.2rem;
+    margin: 1rem;
+    width: 90%;
+    border-radius: 0.3rem;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border: 0.1rem solid black;
+    padding: 0.2rem;
+    cursor: pointer;
+    &:hover {
+      background-color: #023e7e;
+    }
+  }
+  label {
+    margin: 0;
+    display: none;
+    color: red;
+    text-align: start;
+    align-self: flex-start;
+    margin-left: 1rem;
+    font-size: 0.8rem;
+  }
+}

@@ -3,14 +3,22 @@ import navStyles from "../styles/Navbar.module.scss";
 import Link from "next/link";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { Category } from "../global/Category";
+import { useRouter } from "next/router";
 
 const { useState } = React;
 
 const url = process.env.url;
 
 const Navbar: React.FunctionComponent = () => {
+  const router = useRouter();
   const [categories, setCategories] = useState<Category[] | null>(null);
   const [constructorHasRun, setConstructorHasRun] = useState<boolean>(false);
+  const clearSearch = () => {
+    const search = document.getElementById(
+      navStyles.searchBar
+    )! as HTMLInputElement;
+    search.value = "";
+  };
   const getCategories = (categoryId?: number) => {
     let categoryParam = "";
     if (categoryId) {
@@ -23,6 +31,7 @@ const Navbar: React.FunctionComponent = () => {
           setCategories(res.data);
         })
         .catch((err: AxiosError) => {
+          console.error(err);
           setCategories(null);
         });
   };
@@ -50,6 +59,7 @@ const Navbar: React.FunctionComponent = () => {
                   <option
                     key={category.categoryId}
                     value={category.name.toLowerCase()}
+                    id={category.name}
                   >
                     {category.name}
                   </option>
@@ -57,13 +67,31 @@ const Navbar: React.FunctionComponent = () => {
               })}
           </select>
           <input type="search" name="searchBar" id={navStyles.searchBar} />
-          <button className={navStyles.searchBtn}>&#x1F50E;&#xFE0E;</button>
+          <button
+            className={navStyles.searchBtn}
+            onClick={() => {
+              const select = document.getElementById(
+                navStyles.categories
+              )! as HTMLSelectElement;
+              const title = document.getElementById(
+                navStyles.searchBar
+              )! as HTMLInputElement;
+              router.push(
+                `/products/${select.options[
+                  select.selectedIndex
+                ].value.toLowerCase()}/${title.value.toLowerCase()}`
+              );
+              clearSearch();
+            }}
+          >
+            &#x1F50E;&#xFE0E;
+          </button>
         </div>
         <div className={navStyles.authButtons}>
-          <Link href="/">
+          <Link href="/auth/signup">
             <a>Sign Up</a>
           </Link>
-          <Link href="/">
+          <Link href="/auth/signin">
             <a>Sign In</a>
           </Link>
         </div>
@@ -74,22 +102,28 @@ const Navbar: React.FunctionComponent = () => {
           onClick={() => {
             const links = document.getElementsByClassName(navStyles.navLinks);
             document
-              .getElementsByClassName(navStyles.search)[0]
-              .classList.toggle(navStyles.active);
-            document
-              .getElementsByClassName(navStyles.authButtons)[0]
-              .classList.toggle(navStyles.active);
-            document
               .getElementsByClassName(navStyles.navTop)[0]
               .classList.toggle(navStyles.navTopTransition);
             document
               .getElementsByClassName(navStyles.navBottom)[0]
               .classList.toggle(navStyles.navBottomTransition);
+            let time = 500;
+            if (links[0].classList.contains(navStyles.active)) {
+              time = 0;
+            }
+            setTimeout(() => {
+              document
+                .getElementsByClassName(navStyles.search)[0]
+                .classList.toggle(navStyles.active);
+              document
+                .getElementsByClassName(navStyles.authButtons)[0]
+                .classList.toggle(navStyles.active);
+            }, time);
             setTimeout(() => {
               for (let i = 0; i < links.length; i++) {
                 links[i].classList.toggle(navStyles.active);
               }
-            }, 300);
+            }, time);
           }}
         >
           <span className={navStyles.expandLine}></span>
@@ -98,20 +132,47 @@ const Navbar: React.FunctionComponent = () => {
         </button>
         <ul>
           <li className={navStyles.navLinks}>
-            <Link href="/">
-              <a>Home</a>
+            <Link href="/products/all">
+              <a
+                onClick={() => {
+                  const select = document.getElementById(
+                    navStyles.categories
+                  )! as HTMLSelectElement;
+                  select.selectedIndex = 0;
+                  clearSearch();
+                }}
+              >
+                All
+              </a>
             </Link>
           </li>
-          <li className={navStyles.navLinks}>
-            <Link href="/about">
-              <a>About</a>
-            </Link>
-          </li>
-          <li className={navStyles.navLinks}>
-            <Link href="/products">
-              <a>Products</a>
-            </Link>
-          </li>
+          {categories?.slice(0, 8).map((category) => {
+            return (
+              <li className={navStyles.navLinks} key={category.categoryId}>
+                <Link href={`/products/${category.name.toLowerCase()}`}>
+                  <a
+                    onClick={() => {
+                      const select = document.getElementById(
+                        navStyles.categories
+                      )! as HTMLSelectElement;
+                      for (let i = 0; i < select.options.length; i++) {
+                        if (
+                          select.options[i].value.toLowerCase() ===
+                          category.name.toLowerCase()
+                        ) {
+                          select.selectedIndex = i;
+                          break;
+                        }
+                      }
+                      clearSearch();
+                    }}
+                  >
+                    {category.name}
+                  </a>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </nav>

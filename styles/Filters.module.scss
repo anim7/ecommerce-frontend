@@ -1,0 +1,143 @@
+@import "mixins";
+@import "variables";
+
+.filtersContainer {
+  width: 20%;
+  height: 100vh;
+  .showFilters {
+    display: block;
+    margin: 1rem auto;
+    background-color: #007bff;
+    color: white;
+    border: 0.1rem solid black;
+    padding: 0.2rem;
+    border-radius: 0.3rem;
+    display: none;
+    cursor: pointer;
+    &:hover {
+      background-color: darkblue;
+      border-color: #007bff;
+      color: cyan;
+    }
+  }
+  .filters {
+    margin: 2rem 0.5rem;
+    @include flexContainer(flex-start, center);
+    .filterMoney {
+      @include flexContainer(center, center);
+      flex-direction: column;
+      width: 100%;
+      .content {
+        height: 0;
+        transition: all 0.5s step-end;
+        width: 100%;
+        input {
+          display: none;
+          width: 5rem;
+          height: 1.7rem;
+          padding: 0.15rem;
+          margin-right: 0.3rem;
+          border: 0.1rem solid black;
+          border-top-right-radius: 0.3rem;
+          border-bottom-right-radius: 0.3rem;
+          border-left: none;
+          &:focus {
+            outline: none;
+          }
+        }
+        span {
+          display: none;
+          height: 1.5rem;
+          padding: 0.17rem;
+          position: relative;
+          top: 0.05rem;
+          border: 0.1rem solid black;
+          border-top-left-radius: 0.3rem;
+          border-bottom-left-radius: 0.3rem;
+          border-right: none;
+          font-weight: lighter;
+        }
+        .submitButton {
+          display: none;
+          background-color: white;
+          overflow: visible;
+          color: rgb(1, 48, 48);
+          border: 0.1rem solid black;
+          height: 1.7rem;
+          width: 1.7rem;
+          border-radius: 0.3rem;
+          cursor: pointer;
+          background-color: rgb(222, 245, 252);
+          &:hover {
+            background-color: rgb(221, 221, 221);
+          }
+        }
+      }
+      .visible {
+        height: 2rem;
+        border-bottom: 0.05rem solid black;
+        input {
+          display: inline;
+        }
+        span {
+          display: inline;
+        }
+        .submitButton {
+          display: inline;
+        }
+      }
+    }
+  }
+}
+
+.toggleButton {
+  width: 100%;
+  button {
+    @include flexContainer(space-between, center);
+    padding: 0.2rem;
+    font-size: 1.4rem;
+    background-color: white;
+    border: 0.05rem solid black;
+    border-left: none;
+    border-right: none;
+    cursor: pointer;
+    width: 100%;
+  }
+}
+
+.noBottomBorder {
+  button {
+    border-bottom: none;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .filtersContainer {
+    height: 7vh;
+    width: 100%;
+    .showFilters {
+      display: block;
+      margin-bottom: 0;
+      margin-top: 1rem;
+    }
+    .filters {
+      width: 0;
+      transition: all 0.7s ease-out;
+      height: 100vh;
+      position: fixed;
+      top: 2.15rem;
+      left: 0;
+      border: none;
+      background-color: rgb(24, 24, 59);
+      color: white;
+      margin: 0;
+      z-index: 1;
+      * {
+        display: none;
+      }
+    }
+    .filtersTransition {
+      width: 90%;
+    }
+  }
+}

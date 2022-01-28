@@ -120,6 +120,9 @@
         display: none;
         width: 90%;
         margin-top: 1.5rem;
+        #categories {
+          font-size: 0.8rem;
+        }
       }
       h1 {
         margin: 0.3rem 0;
@@ -148,7 +151,7 @@
       }
     }
     .navBottomTransition {
-      height: 7rem;
+      height: 12rem;
     }
     .navTopTransition {
       height: 10.5rem;
