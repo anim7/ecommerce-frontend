@@ -4,9 +4,11 @@ import React from "react";
 import { Product } from "../../../../global/Product";
 import Products from "../../../../components/Products";
 import { getProducts } from "../../../../utils/GetProducts";
+import { getNumberOfProducts } from "../../../../utils/GetNumberOfProducts";
 
 interface Props {
   data: Product[] | null;
+  numberOfProducts: number;
 }
 
 interface IParams extends ParsedUrlQuery {
@@ -14,8 +16,8 @@ interface IParams extends ParsedUrlQuery {
   title: string;
 }
 
-const Title: NextPage<Props> = ({ data }) => {
-  return <Products data={data} />;
+const Title: NextPage<Props> = ({ data, numberOfProducts }) => {
+  return <Products data={data} numberOfProducts={numberOfProducts} />;
 };
 
 export default Title;
@@ -38,7 +40,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   let data: Product[] | null = null;
+  let numberOfProducts = 0;
   const { category, title } = context.params as IParams;
+  if (category == "all") {
+    await getNumberOfProducts(null, title).then((res: number) => {
+      numberOfProducts = res;
+    });
+  } else {
+    await getNumberOfProducts(category, title).then((res: number) => {
+      numberOfProducts = res;
+    });
+  }
   await getProducts(category, title)
     .then((res: Product[] | null) => {
       data = res;
@@ -49,6 +61,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   return {
     props: {
       data: data,
+      numberOfProducts: numberOfProducts,
     },
     revalidate: 2,
   };

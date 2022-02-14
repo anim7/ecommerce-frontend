@@ -4,6 +4,7 @@ import Link from "next/link";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { Category } from "../global/Category";
 import { useRouter } from "next/router";
+import { useConstructor } from "../utils/Hooks";
 
 const { useState } = React;
 
@@ -12,7 +13,6 @@ const url = process.env.url;
 const Navbar: React.FunctionComponent = () => {
   const router = useRouter();
   const [categories, setCategories] = useState<Category[] | null>(null);
-  const [constructorHasRun, setConstructorHasRun] = useState<boolean>(false);
   const clearSearch = () => {
     const search = document.getElementById(
       navStyles.searchBar
@@ -36,12 +36,9 @@ const Navbar: React.FunctionComponent = () => {
         });
   };
   const constructor = () => {
-    if (!constructorHasRun) {
-      getCategories();
-      setConstructorHasRun(true);
-    }
+    getCategories();
   };
-  constructor();
+  useConstructor(constructor);
   return (
     <nav className={navStyles.navContainer}>
       <div className={navStyles.navTop}>
@@ -131,10 +128,19 @@ const Navbar: React.FunctionComponent = () => {
           <span className={navStyles.expandLine}></span>
         </button>
         <ul>
-          <li className={navStyles.navLinks}>
+          <li className={navStyles.navLinks} id="navLinkAll">
             <Link href="/products/all">
               <a
                 onClick={() => {
+                  const links = document.getElementsByClassName(
+                    navStyles.navLinks
+                  );
+                  for (let i = 0; i < links.length; i++) {
+                    links[i].classList.remove(navStyles.activeLink);
+                  }
+                  document
+                    .getElementById("navLinkAll")
+                    ?.classList.add(navStyles.activeLink);
                   const select = document.getElementById(
                     navStyles.categories
                   )! as HTMLSelectElement;
@@ -148,10 +154,23 @@ const Navbar: React.FunctionComponent = () => {
           </li>
           {categories?.slice(0, 8).map((category) => {
             return (
-              <li className={navStyles.navLinks} key={category.categoryId}>
+              <li
+                className={navStyles.navLinks}
+                key={category.categoryId}
+                id={`navLink${category.categoryId}`}
+              >
                 <Link href={`/products/${category.name.toLowerCase()}`}>
                   <a
                     onClick={() => {
+                      const links = document.getElementsByClassName(
+                        navStyles.navLinks
+                      );
+                      for (let i = 0; i < links.length; i++) {
+                        links[i].classList.remove(navStyles.activeLink);
+                      }
+                      document
+                        .getElementById(`navLink${category.categoryId}`)
+                        ?.classList.add(navStyles.activeLink);
                       const select = document.getElementById(
                         navStyles.categories
                       )! as HTMLSelectElement;

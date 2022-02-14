@@ -1,0 +1,45 @@
+@import "variables";
+@import "mixins";
+
+.paginationContainer {
+  @include flexContainer(space-between, center);
+  margin: 3rem auto;
+  width: 50%;
+  border: 2px solid black;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  .paginationNavBtns {
+    height: 100%;
+    width: 15%;
+    border-radius: 0.4rem;
+    background-color: white;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    &:hover {
+      background-color: rgb(216, 215, 215);
+    }
+  }
+  .pages {
+    @include flexContainer(space-between, center);
+    width: 70%;
+    height: 100%;
+    .page {
+      height: 100%;
+      .pageBtn {
+        border: none;
+        height: 100%;
+        width: 2rem;
+        background-color: white;
+        font-size: 1.3rem;
+        cursor: pointer;
+        &:hover {
+          background-color: rgb(219, 219, 219);
+        }
+      }
+      .activeBtn {
+        background-color: rgb(219, 219, 219);
+      }
+    }
+  }
+}

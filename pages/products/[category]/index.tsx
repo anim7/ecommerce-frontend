@@ -4,21 +4,19 @@ import React from "react";
 import { Product } from "../../../global/Product";
 import Products from "../../../components/Products";
 import { getProducts } from "../../../utils/GetProducts";
+import { getNumberOfProducts } from "../../../utils/GetNumberOfProducts";
 
 interface Props {
   data: Product[] | null;
+  numberOfProducts: number;
 }
 
 interface IParams extends ParsedUrlQuery {
   category: string;
 }
 
-const CategoryPage: NextPage<Props> = ({ data }) => {
-  return (
-    <>
-      <Products data={data} />;
-    </>
-  );
+const CategoryPage: NextPage<Props> = ({ data, numberOfProducts }) => {
+  return <Products data={data} numberOfProducts={numberOfProducts} />;
 };
 
 export default CategoryPage;
@@ -40,7 +38,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const { category } = context.params as IParams;
+  let numberOfProducts = 0;
+  console.log(numberOfProducts);
   let data: Product[] | null = null;
+  if (category.toLowerCase() == "all") {
+    await getNumberOfProducts().then((res: number) => {
+      numberOfProducts = res;
+    });
+  } else {
+    await getNumberOfProducts(category).then((res: number) => {
+      numberOfProducts = res;
+    });
+  }
   await getProducts(category, null)
     .then((res: Product[] | null) => {
       data = res;
@@ -51,6 +60,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   return {
     props: {
       data: data,
+      numberOfProducts: numberOfProducts,
     },
     revalidate: 2,
   };
